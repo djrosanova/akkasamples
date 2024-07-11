@@ -6,12 +6,15 @@ The banking sample demonstrates the basics of event sourced entities in Kalix
 
 There is a PoJo that models a BankAccount. There is a BankAccountEntity which provides deposit, withdraw, balance, and GET operations and is what makes this event sourced. The operations do what the name says. The GET operation returns all the transactions (depoistis and withdrawls). Finally there is a BankAccountEvent to tie the other two together in an event driven manner.
 
-To show the interaction between entity instances there is a TransferWorkflow which transfers funds from one account to another. It uses a TransferState PoJo for state.
+To show the interaction between entity instances there is a TransferWorkflow which transfers funds from one account to another. It uses a TransferState PoJo for state. It also has a very simple Message class used for communication within the workflow. 
 
-All state in this sample is stored by Kalix for you. This is durable and stateful, but you never need to write to a database or storage service. 
+When you deploy this to Kalix all state in this sample is stored by Kalix for you. This is durable and stateful, but you never need to write to a database or storage service. When you run this locally the persistience is not enabled in this sample. Doing enabling it doens't require code changes, just deployment changes. 
 
-To understand the Kalix concepts that are the basis for this example, see [Designing services](https://docs.kalix.io/java/development-process.html) in the documentation.
+To understand the Kalix concepts that are the basis for this example, see [Designing services](https://docs.kalix.io/java/development-process.html) in the documentation. 
 
+To understand more about Event Sourced Entities see [Event source entitites](https://docs.kalix.io/java/event-sourced-entities.html)
+
+To understand more about Workflows see [Workflows](https://docs.kalix.io/java/workflows.html)
 
 This project contains the framework to create a Kalix service. To understand more about these components, see [Developing services](https://docs.kalix.io/services/) and check Spring-SDK [official documentation](https://docs.kalix.io/spring/index.html). Examples can be found [here](https://github.com/lightbend/kalix-jvm-sdk/tree/main/samples) in the folders with "spring" in their name.
 
