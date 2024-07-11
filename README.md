@@ -2,6 +2,13 @@
 Samples for Akka
 
 # banking
+The banking sample demonstrates the basics of event sourced entities in Kalix
+
+There is a PoJo that models a BankAccount. There is a BankAccountEntity which provides deposit, withdraw, balance, and GET operations and is what makes this event sourced. The operations do what the name says. The GET operation returns all the transactions (depoistis and withdrawls). Finally there is a BankAccountEvent to tie the other two together in an event driven manner.
+
+To show the interaction between entity instances there is a TransferWorkflow which transfers funds from one account to another. It uses a TransferState PoJo for state.
+
+All state in this sample is stored by Kalix for you. This is durable and stateful, but you never need to write to a database or storage service. 
 
 To understand the Kalix concepts that are the basis for this example, see [Designing services](https://docs.kalix.io/java/development-process.html) in the documentation.
 
@@ -28,8 +35,30 @@ This command will start your Kalix service and a companion Kalix Runtime as conf
 
 With both the Kalix Runtime and your service running, once you have defined endpoints they should be available at `http://localhost:9000`.
 
+Now you can test the application out with some commands
 
-To deploy your service, install the `kalix` CLI as documented in
+See the balance account 1000
+`~curl -H "Content-Type: application/json" localhost:9000/bankAccount/1000`
+
+Deposit 50 into account 1000
+`curl -XPOST -H "Content-Type: application/json" localhost:9000/bankAccount/1234/deposit -d '{ "accountNumber": "1000", "date": "2024-06-26", "amount": 50 }'`
+
+See the balance account 1000 after the deposit
+`curl -H "Content-Type: application/json" localhost:9000/bankAccount/1000`
+
+Withdraw 25 from account 1000
+`curl -XPOST -H "Content-Type: application/json" localhost:9000/bankAccount/1234/withdraw -d '{ "accountNumber": "1234", "date": "2024-06-26", "amount": 25 }'`
+
+Transfer 10 from account 1000 to account 1001
+`curl -X PUT -H "Content-Type: application/json" localhost:9000/transfer/15 -d '{"fromAccount": "1000", "toAccount": "1001", "amount": 10}'`
+
+See the balance account 1000 after the transfer
+`curl -H "Content-Type: application/json" localhost:9000/bankAccount/1000`
+
+See the balance account 1001 after the transfer
+`curl -H "Content-Type: application/json" localhost:9000/bankAccount/1001`
+
+To deploy your service to the cloud, install the `kalix` CLI as documented in
 [Install Kalix](https://docs.kalix.io/kalix/install-kalix.html)
 and configure a Docker Registry to upload your docker image to.
 
