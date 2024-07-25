@@ -65,7 +65,7 @@ To deploy your service to the cloud, install the `kalix` CLI as documented in
 [Install Kalix](https://docs.kalix.io/kalix/install-kalix.html)
 and configure a Docker Registry to upload your docker image to.
 
-**You will NEED to** update the `dockerImage` property in the `pom.xml` **specifically the kalixOrganization and kalixContainerRegistry.** Refer to
+**You will NEED to** update the `pom.xml` **specifically the** `kalixOrganization` and `kalixContainerRegistry`. Refer to
 [Configuring registries](https://docs.kalix.io/projects/container-registries.html)
 for more information on how to make your docker image available to Kalix.
 
